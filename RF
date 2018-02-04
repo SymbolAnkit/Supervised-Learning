@@ -31,6 +31,9 @@ train <- res[ 1:38542 , ]
 test <- res[ 38543:44704 , ]
 
 # In random Forest ntree and mtry is the tuning parameter for better model
+#  best mtry 
+mtry <- tuneRF(train[ ,-3],train$Netvalue,ntreeTry = 500,stepFactor = 1.5,
+               improve = 0.1,trace = T,plot = T)
 set.seed(111)
 fit <- randomForest(train$Netvalue ~ . , data =train[ , -c(1)] 
                     , ntree = 150 ,mtry =3 )

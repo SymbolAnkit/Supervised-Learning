@@ -3,3 +3,33 @@ Creating Batch file of your R script
 start "" "C:\Program Files\Microsoft\R Open\R-3.4.2\bin\x64\R.exe" CMD BATCH C:\Users\Ankit\Desktop\schedulingpo\test.R
 
 Then follow windows task schedular to automate it.
+
+# save to sql server
+
+tosql <- as.data.frame(target)
+
+# to drop the table
+
+sqlQuery(dbhandle,"drop table Dealer_Data")
+
+# save the ouptput of model in sql
+
+sqlSave(dbhandle,tosql,tablename = "Dealer_Data",rownames = F,
+         colnames = F,safer = F,fast = T)
+         
+append = TRUE(IN SQLSAVE) - it will truncate the output in same table.
+
+Requirements :
+
+1.	R studio 
+2.	Internet connectivity
+3.	A user is required on server with Local admin access and SQL Server database access with db_owner permission. 
+4.	Windows Server 2012R2 Standard
+5.	Database Server network connectivity
+6.	open R
+7.	Power BI
+
+
+
+
+

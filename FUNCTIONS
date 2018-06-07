@@ -1,3 +1,5 @@
+Descriptive Statistics
+
 Descriptive_Information <- function(x) {
   nmiss<-sum(is.na(x))
   a <- x[!is.na(x)]

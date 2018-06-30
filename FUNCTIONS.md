@@ -1,51 +1,49 @@
-# Descriptive Statistics
+   ### Descriptive Statistics
 
-Descriptive_Information <- function(x) {
-  nmiss<-sum(is.na(x))
-  a <- x[!is.na(x)]
-  m <- mean(a)
-  n <- length(a)
-  nmiss_per <- (nmiss/n)*100
-  s <- sd(a)
-  min <- min(a)
-  p1<-quantile(a,0.01)
-  p5<-quantile(a,0.05)
-  p10<-quantile(a,0.10)
-  q1<-quantile(a,0.25)
-  q2<-quantile(a,0.5)
-  q3<-quantile(a,0.75)
-  p90<-quantile(a,0.90)
-  p95<-quantile(a,0.95)
-  p99<-quantile(a,0.99)
-  max <- max(a)
-  UC <- m+3*s
-  LC <- m-3*s
-  outlier_flag<- max>UC | min<LC
-  return(c(n=n, nmiss=nmiss, nmiss_per=nmiss_per, outlier_flag=outlier_flag, mean=m, stdev=s,min = min, p1=p1,p5=p5,p10=p10,q1=q1,q2=q2,q3=q3,p90=p90,p95=p95,p99=p99,max=max, UC=UC, LC=LC ))
-}
+    Descriptive_Information <- function(x) {
+      nmiss<-sum(is.na(x))
+      a <- x[!is.na(x)]
+      m <- mean(a)
+      n <- length(a)
+      nmiss_per <- (nmiss/n)*100
+      s <- sd(a)
+      min <- min(a)
+      p1<-quantile(a,0.01)
+      p5<-quantile(a,0.05)
+      p10<-quantile(a,0.10)
+      q1<-quantile(a,0.25)
+      q2<-quantile(a,0.5)
+      q3<-quantile(a,0.75)
+      p90<-quantile(a,0.90)
+      p95<-quantile(a,0.95)
+      p99<-quantile(a,0.99)
+      max <- max(a)
+      UC <- m+3*s
+      LC <- m-3*s
+      outlier_flag<- max>UC | min<LC
+      return(c(n=n, nmiss=nmiss, nmiss_per=nmiss_per, outlier_flag=outlier_flag, mean=m, stdev=s,min = min,p1=p1,p5=p5,p10=p10,q1=q1,q2=q2,q3=q3,p90=p90,p95=p95,p99=p99,max=max, UC=UC, LC=LC ))}
 
-# cross validation
-library(caret)
+   ### cross validation
+    library(caret)
 
-model <- train(Netvalue ~. , train , method = "lm" , 
+    model <- train(Netvalue ~. , train , method = "lm" , 
                trcontrol = trainControl(method = "cv" , number = 10 ,
                                         verboseIter = T))
 
-summary(model)
+    summary(model)
 
-# sparkr
+   ### sparkr
 
-install.package("sparklyr")
-Sparkly::spark_install() # local machine spark
+    install.package("sparklyr")
+    
+   __*local machine spark*__
 
-library(sparklyr)
+    Sparkly::spark_install() 
 
-sc = spark_connect(master="local")
+    library(sparklyr)
 
-#######Descriptive Graphs
+    sc = spark_connect(master="local")
 
-
-car <- mtcars
 
 scatter.smooth(car$mpg,car$wt, main = "MILEGE-WEIGHT")
 

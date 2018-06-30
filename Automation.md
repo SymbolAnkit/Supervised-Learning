@@ -1,4 +1,4 @@
-Creating Batch file of your R script
+Creating Batch file of our R script
 
 start "" "C:\Program Files\Microsoft\R Open\R-3.4.2\bin\x64\R.exe" CMD BATCH C:\Users\Ankit\Desktop\schedulingpo\test.R
 

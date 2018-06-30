@@ -6,17 +6,19 @@
 
     setwd("C:/Users/Ankit/Desktop/randomForest")
 
-  ##### Load Important Libraries
+   #### Load Important Libraries
 
     library(readr)
     library(lubridate)
+    library(dummies)
+    library(randomForest)
 
    ##### read data
 
     pre <- read_csv("new_sales_data.csv")
     pos <- read_csv("Dummy data_JAn.csv")
 
-  __* Convert BillingDate to DateTime Format*__
+  __*Convert BillingDate to DateTime Format*__
 
     pre$BillingDate <- as.Date(pre$BillingDate , "%Y-%m-%d")
     pos$BillingDate <- as.Date(pos$BillingDate ,"%m/%d/%Y")
@@ -29,26 +31,30 @@
 
     str(res)
 
-res$year <- year(res$BillingDate)
-res$month <- month(res$BillingDate)
-res$day <- day(res$BillingDate)
-res$weekday <- wday(res$BillingDate)
+   *Extract Day, Month, Year, Weekday from Date Column using package __lubridate__*
 
-library(dummies)
-library(randomForest)
+      res$year <- year(res$BillingDate)
+      res$month <- month(res$BillingDate)
+      res$day <- day(res$BillingDate)
+      res$weekday <- wday(res$BillingDate)
 
-train <- res[ 1:38542 , ]
-test <- res[ 38543:44704 , ]
+   #### Subsetting Data
 
-# In random Forest ntree and mtry is the tuning parameter for better model
-#  best mtry 
-mtry <- tuneRF(train[ ,-3],train$Netvalue,ntreeTry = 500,stepFactor = 1.5,
-               improve = 0.1,trace = T,plot = T)
+      train <- res[ 1:38542 , ]
+      test <- res[ 38543:44704 , ]
+
+__*In random Forest ntree and mtry is the tuning parameter for better model*__
+
 set.seed(111)
 fit <- randomForest(train$Netvalue ~ . , data =train[ , -c(1)] 
                     , ntree = 150 ,mtry =3 )
 fit
 plot(fit)
+
+#  best mtry 
+mtry <- tuneRF(train[ ,-3],train$Netvalue,ntreeTry = 500,stepFactor = 1.5,
+               improve = 0.1,trace = T,plot = T)
+
 
 train$pr <- predict(fit,train[ , -c(1)])
 test$pr <- predict(fit,test[ , -c(1)])

@@ -45,40 +45,57 @@
 
 __*In random Forest ntree and mtry is the tuning parameter for better model*__
 
-set.seed(111)
-fit <- randomForest(train$Netvalue ~ . , data =train[ , -c(1)] 
+      set.seed(111)
+      
+      fit <- randomForest(train$Netvalue ~ . , data =train[ , -c(1)] 
                     , ntree = 150 ,mtry =3 )
-fit
-plot(fit)
 
-#  best mtry 
-mtry <- tuneRF(train[ ,-3],train$Netvalue,ntreeTry = 500,stepFactor = 1.5,
+      fit
+
+      plot(fit)
+
+   ####  best mtry 
+      
+      mtry <- tuneRF(train[ ,-3],train$Netvalue,ntreeTry = 500,stepFactor = 1.5,
                improve = 0.1,trace = T,plot = T)
 
+*Prediction on Training data*
 
-train$pr <- predict(fit,train[ , -c(1)])
-test$pr <- predict(fit,test[ , -c(1)])
+      train$pr <- predict(fit,train[ , -c(1)])
+      test$pr <- predict(fit,test[ , -c(1)])
 
-# write.csv(res,"mm.csv")
+__*Export data from R to Sink in CSV format*__
 
-# res2 <- res %>% group_by(BillingDate) %>% 
-  # summarise(Netvalue=sum(Netvalue),
-            # predicted = sum(pr))
-# write.csCv(res2 , "lll.csv")
+       write.csv(res,"mm.csv" , rownames = False)
 
-mp <- rbind(train,test)
+__*Group_By using pipe function*__
 
-mpn <- mp %>% group_by(BillingDate) %>%
-    summarise(Netvalue=sum(Netvalue),
-              predicted = sum(pr))
-write.csv(mpn , "cpl.csv")
-RMSE <- function(a,b){
-  sqrt(mean((a-b)^2))
-}
+      res2 <- res %>% group_by(BillingDate) %>% 
+      summarise(Netvalue=sum(Netvalue),predicted = sum(pr))
+      
+ __*Export data from R to Sink in CSV format*__
+   
+      write.csv(res2 , "lll.csv")
 
-RMSE(train$pr,train$Netvalue)
+__*Root Mean Square Value*__
 
-acutals_pred <- as.data.frame(cbind(actuals=train$Netvalue,predicteds=train$pr))
-min_max_accuracy <- mean(apply(acutals_pred, 1, min) / apply(acutals_pred, 1, max)) 
-min_max_accuracy
+      RMSE <- function(a,b)
+                  {
+                     sqrt(mean((a-b)^2))
+                   }
+
+      RMSE(train$pr,train$Netvalue)
+
+__*Min_Max_Accuracy*__
+
+      acutals_pred <- as.data.frame(cbind(actuals=train$Netvalue,predicteds=train$pr))
+
+      min_max_accuracy <- mean(apply(acutals_pred, 1, min) / apply(acutals_pred, 1, max)) 
+      
+      min_max_accuracy
+      
+      
+      
+      
+      
 

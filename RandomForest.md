@@ -1,23 +1,33 @@
-###### clear Environment
-rm(list = ls())
+   ###### clear Environment
 
-#set working directory
-setwd("C:/Users/Ankit/Desktop/randomForest")
+    rm(list = ls())
 
-library(readr)
-library(lubridate)
+   ###### set working directory
 
-# read data
-pre <- read_csv("new_sales_data.csv")
-#read dummy data
-pos <- read_csv("Dummy data_JAn.csv")
+    setwd("C:/Users/Ankit/Desktop/randomForest")
 
-pre$BillingDate <- as.Date(pre$BillingDate , "%Y-%m-%d")
-pos$BillingDate <- as.Date(pos$BillingDate ,"%m/%d/%Y")
+  ###### Load Important Libraries
 
-res <- rbind(pre,pos)
+    library(readr)
+    library(lubridate)
 
-str(res)
+   ###### read data
+
+    pre <- read_csv("new_sales_data.csv")
+    pos <- read_csv("Dummy data_JAn.csv")
+
+  __* Convert BillingDate to DateTime Format*__
+
+    pre$BillingDate <- as.Date(pre$BillingDate , "%Y-%m-%d")
+    pos$BillingDate <- as.Date(pos$BillingDate ,"%m/%d/%Y")
+    
+   __*rbind() function combines vector, matrix or data frame by rows*__
+
+    res <- rbind(pre,pos)
+
+   __*Compactly Display The Structure Of An Arbitrary R Object*__
+
+    str(res)
 
 res$year <- year(res$BillingDate)
 res$month <- month(res$BillingDate)

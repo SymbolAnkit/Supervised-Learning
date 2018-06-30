@@ -44,14 +44,14 @@
 
     sc = spark_connect(master="local")
 
+   ### Descriptive Stats Plot
+      
+      scatter.smooth(car$mpg,car$wt, main = "MILEGE-WEIGHT")
 
-scatter.smooth(car$mpg,car$wt, main = "MILEGE-WEIGHT")
+      boxplot(car$wt , main="Weight" , sub=paste("Outlier Rows :" , paste(boxplot.stats(car$wt)$out,collapse = " ")))
 
-boxplot(car$wt , main="Weight" , sub=paste("Outlier Rows :" , paste(boxplot.stats(car$wt)$out,collapse = " ")))
+      library(e1071)
 
-library(e1071)
+      plot(density(car$wt),main = "Density plot : Weight",ylab = "Frequency",sub=paste("Skewness : ",round(skewness(car$wt),2 )  ))
 
-plot(density(car$wt),main = "Density plot : Weight",ylab = "Frequency",sub=paste(
-  "Skewness : ",round(skewness(car$wt),2 )  ))
-
-polygon(density(car$wt) , col=rainbow(20))
+      polygon(density(car$wt) , col=rainbow(20))

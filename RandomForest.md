@@ -1,17 +1,17 @@
-   ###### clear Environment
+   ##### clear Environment/Remove
 
     rm(list = ls())
 
-   ###### set working directory
+   ##### set working directory
 
     setwd("C:/Users/Ankit/Desktop/randomForest")
 
-  ###### Load Important Libraries
+  ##### Load Important Libraries
 
     library(readr)
     library(lubridate)
 
-   ###### read data
+   ##### read data
 
     pre <- read_csv("new_sales_data.csv")
     pos <- read_csv("Dummy data_JAn.csv")

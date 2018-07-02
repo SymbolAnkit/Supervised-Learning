@@ -17,10 +17,17 @@ __*working Directory*__
    __Getting current Working directory__    
          
          os.getcwd()
+         %pwd
     
    __Setting Working directory__
       
          os.chdir("E:\Practice")
          
+   ## Import Data Set
+   
+      dataset = pd.read_csv("train.csv")
+      data.head()
+      
+    
          
 

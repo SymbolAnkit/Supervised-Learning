@@ -1,4 +1,4 @@
-   ####How to open jupyter notebook
+   #### How to open jupyter notebook
 
     Open Anacondo Prompt - run as administrator
 

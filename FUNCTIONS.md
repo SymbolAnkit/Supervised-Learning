@@ -1,3 +1,16 @@
+   ### Excel statistical functions 
+   
+      Average
+      Min 
+      Max
+      Stdev
+      mode
+      count
+      countif
+      countifs
+      averageifs
+   
+   
    ### Descriptive Statistics
 
     Descriptive_Information <- function(x) {

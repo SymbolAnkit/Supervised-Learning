@@ -1,116 +1,118 @@
-          ### Required Libraries
+  ### Required Libraries
 
-            library(caret)
-library(glmnet)
-library(mlbench)
-library(psych)
+          library(caret)
+          library(glmnet)
+          library(mlbench)
+          library(psych)
 
-data("BostonHousing")
+          data("BostonHousing")
  
-pairs.panels(BostonHousing , cex.cor = 5)
+          pairs.panels(BostonHousing , cex.cor = 5)
 
-colnames(BostonHousing)
+          colnames(BostonHousing)
 
-# linear regression
+### linear regression
 
-fit <- lm(medv~. , data = BostonHousing)
+          fit <- lm(medv~. , data = BostonHousing)
 
-summary(fit)
+          summary(fit)
 
-# cross validation
+### cross validation
 
-set.seed(111)
+          set.seed(111)
 
-control <- trainControl(method = "repeatedcv",
+          control <- trainControl(method = "repeatedcv",
                         number = 10,
                         repeats = 10,
                         verboseIter = T)
 
-cvfit <- train(medv~. , BostonHousing, method = "lm" , trControl = control)
+          cvfit <- train(medv~. , BostonHousing, method = "lm" , trControl = control)
 
-cvfit$results
-plot(cvfit$finalModel)
+          cvfit$results
+          plot(cvfit$finalModel)
 
-dev.off()
-# Ridge
-ridge <- train(medv~. , data = BostonHousing, 
+          dev.off()
+### Ridge
+
+          ridge <- train(medv~. , data = BostonHousing, 
                method = "glmnet",
                tuneGrid = expand.grid(alpha = 0,
                                       lambda = seq(0.1, 5, length = 5)),
                trControl = control)
-summary(ridge)
+          summary(ridge)
 
-plot(ridge)
-ridge
+          plot(ridge)
+          ridge
 
-plot(ridge$finalModel, xvar = "lambda",label = T)
+          plot(ridge$finalModel, xvar = "lambda",label = T)
 
-plot(ridge$finalModel, xvar = "dev" , label = T)
+          plot(ridge$finalModel, xvar = "dev" , label = T)
 
-plot(varImp(ridge , scale = F))
+          plot(varImp(ridge , scale = F))
 
-# Lasso Regression
+### Lasso
 
-set.seed(191)
+          set.seed(191)
 
-lasso <- train(medv~. , data = BostonHousing,method = "glmnet" ,
+          lasso <- train(medv~. , data = BostonHousing,method = "glmnet" ,
                tuneGrid = expand.grid(alpha =1 ,
                                       lambda = seq(0.1,5,length = 10)),
                trControl = control)
 
-plot(lasso)
+          plot(lasso)
 
-lasso
+          lasso
 
-plot(lasso$finalModel, xvar = "lambda" , label = T)
+          plot(lasso$finalModel, xvar = "lambda" , label = T)
 
-plot(lasso$finalModel , xvar = "dev" , label = T)
+          plot(lasso$finalModel , xvar = "dev" , label = T)
 
-plot(varImp(lasso,scale = F))
+          plot(varImp(lasso,scale = F))
 
-# Elastic Net Regression
+### Elastic Net
 
-elnet <- train(medv~. , data = BostonHousing ,
+          elnet <- train(medv~. , data = BostonHousing ,
                method = "glmnet" , 
            
                    tuneGrid = expand.grid(alpha = seq(0,1,length = 15),
                                       lambda = seq(0,0.2,length = 10)),
                trControl = control)
 
-elnet
+          elnet
 
-plot(elnet)
+          plot(elnet)
 
-plot(elnet$finalModel , xvar = "lambda" , label = T)
+          plot(elnet$finalModel , xvar = "lambda" , label = T)
 
-plot(elnet$finalModel , xvar = "dev" , label = T)
+          plot(elnet$finalModel , xvar = "dev" , label = T)
 
-plot(varImp(elnet))
+          plot(varImp(elnet))
 
-# compare models
+## compare models
 
-model_list <- list( Ridge = ridge , Lasso = lasso ,
+          model_list <- list( Ridge = ridge , Lasso = lasso ,
                    ElasticNet = elnet)
 
-res <- resamples(model_list)
-summary(res)
+          res <- resamples(model_list)
+          
+          summary(res)
 
-bwplot(res)
+          bwplot(res)
 
-# Best model
+## Best model
 
-elnet$bestTune
-ridge$bestTune
-lasso$bestTune
+          elnet$bestTune
+          ridge$bestTune
+          lasso$bestTune
 
-x <- elnet$finalModel
+          x <- elnet$finalModel
 
-coef(x , s = elnet$bestTune$lambda)
+          coef(x , s = elnet$bestTune$lambda)
 
-# save the model
+_save the model_
 
-saveRDS(elnet , "finalmodel.rds")
+          saveRDS(elnet , "finalmodel.rds")
 
-fm <- readRDS("finalmodel.rds")
+          fm <- readRDS("finalmodel.rds")
 
-print(fm)
+          print(fm)

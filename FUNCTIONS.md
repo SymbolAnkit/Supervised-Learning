@@ -36,6 +36,16 @@
       outlier_flag<- max>UC | min<LC
       return(c(n=n, nmiss=nmiss, nmiss_per=nmiss_per, outlier_flag=outlier_flag, mean=m, stdev=s,min = min,p1=p1,p5=p5,p10=p10,q1=q1,q2=q2,q3=q3,p90=p90,p95=p95,p99=p99,max=max, UC=UC, LC=LC ))}
 
+### correlation among variables
+
+      library(corrplot)
+      corrplot(cor(data))
+    
+### skewness in the data
+      library(moments)
+      sapply(data , function(x) skewness(x))
+      
+      
    ### cross validation
     library(caret)
 

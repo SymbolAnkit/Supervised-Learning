@@ -78,3 +78,5 @@
       plot(density(car$wt),main = "Density plot : Weight",ylab = "Frequency",sub=paste("Skewness : ",round(skewness(car$wt),2 )  ))
 
       polygon(density(car$wt) , col=rainbow(20))
+      
+ https://github.com/RamiKrispin/TSstudio
